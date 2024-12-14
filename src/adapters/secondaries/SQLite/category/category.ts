@@ -14,13 +14,13 @@ export class SQLiteCategory extends BaseEntity {
   @Column()
   name: string;
 
-  @Column("int")
+  @Column("integer")
   budget: number;
 
-  @Column("boolean")
+  @Column()
   direct: boolean;
 
-  @Column("boolean")
+  @Column()
   temporary: boolean;
 
   constructor(

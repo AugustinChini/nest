@@ -24,41 +24,43 @@ export default class SQLiteManager {
    */
   public async createConnection() {
     const promise = new Promise(async (resolve, reject) => {
-      const fileExists = await RNFS.exists(SQLiteManager.DB_PATH);
+      if (!this.dataSource?.isInitialized) await this.dataSource.initialize();
+      resolve(this.dataSource);
+      //   const fileExists = await RNFS.exists(SQLiteManager.DB_PATH);
 
-      RNFS.exists(SQLiteManager.DB_ROOT_DIR)
-        .then((exists: boolean) => {
-          if (!exists) {
-            return RNFS.mkdir(SQLiteManager.DB_ROOT_DIR);
-          } else {
-            return Promise.resolve();
-          }
-        })
-        .then(async () => {
-          if (!fileExists) {
-            const options = {
-              fromUrl: "https://achini.fr/downloads/nest",
-              toFile: SQLiteManager.DB_PATH,
-            };
-            try {
-              const result = await RNFS.downloadFile(options).promise;
-              console.log(`Database downloaded : ${result.jobId}`);
-              const res = await this.dataSource.initialize();
-              resolve(res);
-            } catch (e) {
-              console.log(`Erreur while downloading the database: ${e}`);
-              reject(e);
-            }
-          } else {
-            if (!this.dataSource?.isInitialized)
-              await this.dataSource.initialize();
-            resolve(this.dataSource);
-          }
-        })
-        .catch((error: any) => {
-          console.log("Erreur while creating the db root dir : ", error);
-          reject(error);
-        });
+      //   RNFS.exists(SQLiteManager.DB_ROOT_DIR)
+      //     .then((exists: boolean) => {
+      //       if (!exists) {
+      //         return RNFS.mkdir(SQLiteManager.DB_ROOT_DIR);
+      //       } else {
+      //         return Promise.resolve();
+      //       }
+      //     })
+      //     .then(async () => {
+      //       if (!fileExists) {
+      //         const options = {
+      //           fromUrl: "https://achini.fr/downloads/nest",
+      //           toFile: SQLiteManager.DB_PATH,
+      //         };
+      //         try {
+      //           const result = await RNFS.downloadFile(options).promise;
+      //           console.log(`Database downloaded : ${result.jobId}`);
+      //           const res = await this.dataSource.initialize();
+      //           resolve(res);
+      //         } catch (e) {
+      //           console.log(`Erreur while downloading the database: ${e}`);
+      //           reject(e);
+      //         }
+      //       } else {
+      //         if (!this.dataSource?.isInitialized)
+      //           await this.dataSource.initialize();
+      //         resolve(this.dataSource);
+      //       }
+      //     })
+      //     .catch((error: any) => {
+      //       console.log("Erreur while creating the db root dir : ", error);
+      //       reject(error);
+      //     });
     });
 
     return promise;
