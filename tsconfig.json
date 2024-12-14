@@ -1,0 +1,15 @@
+// prettier-ignore
+{
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+        /* Completeness */
+        "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    }
+}

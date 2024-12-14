@@ -1,5 +1,3 @@
-# Nest
+# nest
 
-Nest is a mobile app designed to help you manage your household budget and expenses.
-
-I hope this helps!
+React Native mobile app for the Nest restaurant order management
