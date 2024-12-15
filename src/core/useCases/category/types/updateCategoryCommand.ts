@@ -1,5 +1,5 @@
 type UpdateCategoryCommand = {
-  id: string;
+  id: number;
   name?: string;
   budget?: number;
   direct?: boolean;

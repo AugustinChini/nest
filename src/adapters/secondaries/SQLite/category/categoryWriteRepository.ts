@@ -1,12 +1,14 @@
 import CategoryDto from "../../../../core/domain/models/category/dto/categoryDto";
 import { ICategoryWriteRepository } from "../../../../core/useCases/category/interfaces/categoryWriteRepository";
+import CreateCategoryCommand from "../../../../core/useCases/category/types/createCategoryCommand";
+import UpdateCategoryCommand from "../../../../core/useCases/category/types/updateCategoryCommand";
 import SQLiteManager from "../sqlite";
 import { SQLiteCategory } from "./category";
 
 export default class SQLiteCategoryWriteRepository
   implements ICategoryWriteRepository
 {
-  async create(category: CategoryDto): Promise<CategoryDto> {
+  async create(category: CreateCategoryCommand): Promise<CategoryDto> {
     const categoryToCreate = new SQLiteCategory(
       null,
       category.name,
@@ -23,7 +25,7 @@ export default class SQLiteCategoryWriteRepository
 
     return newCategory.toDto();
   }
-  async update(category: CategoryDto): Promise<void> {
+  async update(category: UpdateCategoryCommand): Promise<void> {
     await SQLiteManager.getInstance()
       .getDataSource()
       .createQueryBuilder()
