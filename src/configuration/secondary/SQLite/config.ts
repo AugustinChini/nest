@@ -7,8 +7,8 @@ const config: DataSourceOptions = {
   database: "nest",
   location: "default",
   logging: [],
-  synchronize: true,
-  entities: [SQLiteCategory, SQLiteExpense],
+  synchronize: false,
+  entities: [SQLiteExpense, SQLiteCategory],
 };
 
 export default config;

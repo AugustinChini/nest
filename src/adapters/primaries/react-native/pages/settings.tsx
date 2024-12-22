@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { Avatar, Input, ListItem, Switch, Text } from "@rneui/themed";
+import { Avatar, Button, Input, ListItem, Switch, Text } from "@rneui/themed";
 import GetAllCategorys from "../../../../core/useCases/category/getAllCategory";
 import UpdateCategory from "../../../../core/useCases/category/updateCategory";
 import CreateCategory from "../../../../core/useCases/category/createCategory";
+import DeleteCategory from "../../../../core/useCases/category/deleteCategory";
 import SQLiteCategoryReadRepository from "../../../secondaries/SQLite/category/categoryReadRepository";
 import SQLiteCategoryWriteRepository from "../../../secondaries/SQLite/category/categoryWriteRepository";
 import CreateCategoryCommand from "../../../../core/useCases/category/types/createCategoryCommand";
@@ -16,6 +17,7 @@ const Settings: any = () => {
   const categoryWriteRepository = new SQLiteCategoryWriteRepository();
   const getCategories = new GetAllCategorys(categoryReadRepository);
   const createCategory = new CreateCategory(categoryWriteRepository);
+  const deleteCategory = new DeleteCategory(categoryWriteRepository);
   const updateCategory = new UpdateCategory(
     categoryWriteRepository,
     categoryReadRepository
@@ -82,15 +84,31 @@ const Settings: any = () => {
     }
   };
 
+  function handleDeleteCategory(index: number): void {
+    deleteCategory.execute({ id: categories[index].id });
+    setCategories((prevState) => {
+      prevState.splice(index, 1);
+      return [...prevState];
+    });
+  }
+
   return (
     <ScrollView>
       {categories.length > 0 ? (
         categories.map((category, index) => (
-          <ListItem
+          <ListItem.Swipeable
             key={category.id}
             onPress={() => {
               setExpanded(!expanded);
             }}
+            rightContent={() => (
+              <Button
+                title="Delete"
+                onPress={() => handleDeleteCategory(index)}
+                icon={{ name: "delete", color: "white" }}
+                buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
+              />
+            )}
           >
             <ListItem.Content>
               <Input
@@ -138,7 +156,7 @@ const Settings: any = () => {
                 <Text style={{ paddingLeft: 5 }}>Bank Direct Debit</Text>
               </View>
             </ListItem.Content>
-          </ListItem>
+          </ListItem.Swipeable>
         ))
       ) : (
         <Text>Loading</Text>

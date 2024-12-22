@@ -1,5 +1,5 @@
 import Category from "../../domain/models/category/category";
-import CategoryNotUpdatedException from "../../domain/models/category/exceptions/categoryNotUpdatedError";
+import CategoryNotCreatedException from "../../domain/models/category/exceptions/categoryNotCreatedError";
 import { ICategoryWriteRepository } from "./interfaces/categoryWriteRepository";
 import CreateCategoryCommand from "./types/createCategoryCommand";
 
@@ -19,6 +19,6 @@ export default class CreateCategory {
       const newCategory = await this.categoryWriteRepository.create(command);
       return new Category(newCategory);
     }
-    throw new CategoryNotUpdatedException();
+    throw new CategoryNotCreatedException();
   }
 }
