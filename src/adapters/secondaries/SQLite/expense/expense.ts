@@ -24,7 +24,7 @@ export class SQLiteExpense extends BaseEntity {
   @CreateDateColumn()
   date: Date;
 
-  @ManyToOne(() => SQLiteCategory)
+  @ManyToOne(() => SQLiteCategory, { onDelete: "CASCADE" })
   @JoinColumn()
   category: SQLiteCategory;
 

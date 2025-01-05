@@ -14,10 +14,21 @@ const CtHeader = () => {
       containerStyle={{
         height: 60,
       }}
+      leftComponent={
+        <View style={styles.headerLeft}>
+          <Icon
+            size={20}
+            name="grid"
+            type="ionicon"
+            color="white"
+            onPress={() => navigation.navigate("expenses")}
+          />
+        </View>
+      }
       rightComponent={
         <View style={styles.headerRight}>
           <Icon
-            size={23}
+            size={20}
             name="settings"
             type="ionicon"
             color="white"

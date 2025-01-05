@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { Avatar, Button, Input, ListItem, Switch, Text } from "@rneui/themed";
+import {
+  Avatar,
+  Button,
+  Divider,
+  Input,
+  ListItem,
+  Switch,
+  Text,
+} from "@rneui/themed";
 import GetAllCategorys from "../../../../core/useCases/category/getAllCategory";
 import UpdateCategory from "../../../../core/useCases/category/updateCategory";
 import CreateCategory from "../../../../core/useCases/category/createCategory";
@@ -84,8 +92,8 @@ const Settings: any = () => {
     }
   };
 
-  function handleDeleteCategory(index: number): void {
-    deleteCategory.execute({ id: categories[index].id });
+  async function handleDeleteCategory(index: number) {
+    await deleteCategory.execute({ id: categories[index].id });
     setCategories((prevState) => {
       prevState.splice(index, 1);
       return [...prevState];
@@ -96,67 +104,75 @@ const Settings: any = () => {
     <ScrollView>
       {categories.length > 0 ? (
         categories.map((category, index) => (
-          <ListItem.Swipeable
-            key={category.id}
-            onPress={() => {
-              setExpanded(!expanded);
-            }}
-            rightContent={() => (
-              <Button
-                title="Delete"
-                onPress={() => handleDeleteCategory(index)}
-                icon={{ name: "delete", color: "white" }}
-                buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
-              />
-            )}
-          >
-            <ListItem.Content>
-              <Input
-                onChange={(e) =>
-                  handleChangeCategory(
-                    { ...category, name: e.nativeEvent.text },
-                    index
-                  )
-                }
-                onEndEditing={() => saveCat(index)}
-                placeholder="Category"
-                leftIcon={{ name: "money" }}
-                value={category.name}
-              />
-
-              <Input
-                onEndEditing={() => saveCat(index)}
-                onChange={(e) => {
-                  const val = parseFloat(e.nativeEvent.text);
-                  handleChangeCategory(
-                    { ...category, budget: isNaN(val) ? 0 : val },
-                    index
-                  );
-                }}
-                placeholder="Budget"
-                keyboardType="numeric"
-                leftIcon={{ name: "euro" }}
-                value={category.budget.toString()}
-              />
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Switch
-                  value={category.direct}
-                  onValueChange={(value) => {
-                    let updatedCat = { ...category, direct: value };
-                    handleChangeCategory(updatedCat, index);
-                    saveCat(index, updatedCat);
+          <>
+            <ListItem.Swipeable
+              key={category.id}
+              containerStyle={{ margin: 20 }}
+              onPress={() => {
+                setExpanded(!expanded);
+              }}
+              rightContent={() => (
+                <Button
+                  title="Delete"
+                  onPress={() => handleDeleteCategory(index)}
+                  icon={{ name: "delete", color: "white" }}
+                  buttonStyle={{
+                    height: 200,
+                    backgroundColor: "red",
+                    margin: 20,
                   }}
                 />
-                <Text style={{ paddingLeft: 5 }}>Bank Direct Debit</Text>
-              </View>
-            </ListItem.Content>
-          </ListItem.Swipeable>
+              )}
+            >
+              <ListItem.Content>
+                <Input
+                  onChange={(e) =>
+                    handleChangeCategory(
+                      { ...category, name: e.nativeEvent.text },
+                      index
+                    )
+                  }
+                  onEndEditing={() => saveCat(index)}
+                  placeholder="Category"
+                  leftIcon={{ name: "money" }}
+                  value={category.name}
+                />
+
+                <Input
+                  onEndEditing={() => saveCat(index)}
+                  onChange={(e) => {
+                    const val = parseFloat(e.nativeEvent.text);
+                    handleChangeCategory(
+                      { ...category, budget: isNaN(val) ? 0 : val },
+                      index
+                    );
+                  }}
+                  placeholder="Budget"
+                  keyboardType="numeric"
+                  leftIcon={{ name: "euro" }}
+                  value={category.budget.toString()}
+                />
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Switch
+                    value={category.direct}
+                    onValueChange={(value) => {
+                      let updatedCat = { ...category, direct: value };
+                      handleChangeCategory(updatedCat, index);
+                      saveCat(index, updatedCat);
+                    }}
+                  />
+                  <Text style={{ paddingLeft: 5 }}>Bank Direct Debit</Text>
+                </View>
+              </ListItem.Content>
+            </ListItem.Swipeable>
+            <Divider />
+          </>
         ))
       ) : (
         <Text>Loading</Text>

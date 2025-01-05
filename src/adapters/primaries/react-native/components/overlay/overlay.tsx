@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Overlay, Icon, Divider, Input } from "@rneui/themed";
 import { ToastAndroid, View } from "react-native";
 import styles from "./styles";
@@ -10,9 +10,10 @@ import SQLiteExpenseWriteRepository from "../../../../secondaries/SQLite/expense
 import SQLiteCategoryReadRepository from "../../../../secondaries/SQLite/category/categoryReadRepository";
 
 const ExpenseOverlay = (props: {
-  category: CategoryDto;
+  category: CategoryDto | null;
   visible: boolean;
   onBackdropPress: () => void;
+  onSubmit: () => void;
 }) => {
   const { visible } = props;
 
@@ -30,8 +31,18 @@ const ExpenseOverlay = (props: {
     name: "",
     amount: 0,
     date: new Date(),
-    category: props.category,
+    category: props.category as CategoryDto,
   });
+
+  useEffect(() => {
+    if (props.visible)
+      setExpense({
+        name: "",
+        amount: 0,
+        date: new Date(),
+        category: props.category as CategoryDto,
+      });
+  }, [props.visible]);
 
   const handleChangeExpense = (field: string, newVal: string) => {
     setExpense((prevState) => ({ ...prevState, [field]: newVal }));
@@ -52,7 +63,7 @@ const ExpenseOverlay = (props: {
   return visible ? (
     <Overlay isVisible={true} onBackdropPress={props.onBackdropPress}>
       <View style={styles.mainContainer}>
-        <Text h4>Add Expense for {props.category.name}</Text>
+        <Text h4>Add Expense for {props.category?.name}</Text>
         <Input
           onChange={(e) => {
             handleChangeExpense("name", e.nativeEvent.text);
@@ -93,6 +104,7 @@ const ExpenseOverlay = (props: {
             onPress={() => {
               saveExpense();
               props.onBackdropPress();
+              props.onSubmit();
             }}
           >
             <Icon name="save" color="white" />

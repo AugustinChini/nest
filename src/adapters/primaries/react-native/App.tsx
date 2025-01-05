@@ -6,6 +6,7 @@ import CtDialog from "./components/dialog/dialog";
 import CtHeader from "./components/header/ct-header";
 import HomePage from "./pages/home";
 import Settings from "./pages/settings";
+import Expenses from "./pages/expenses";
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -23,6 +24,7 @@ const App = () => {
         >
           <Stack.Screen name="home" component={HomePage} />
           <Stack.Screen name="settings" component={Settings} />
+          <Stack.Screen name="expenses" component={Expenses} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>

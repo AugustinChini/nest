@@ -3,7 +3,12 @@ const styles: any = StyleSheet.create({
   headerRight: {
     display: "flex",
     flexDirection: "row",
-    marginTop: 2,
+    marginTop: 5,
+  },
+  headerLeft: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 5,
   },
 });
 
