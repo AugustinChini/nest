@@ -44,4 +44,14 @@ export default class SQLiteExpenseWriteRepository
       .where("id = :id", { id: expenseToUpdate.id })
       .execute();
   }
+
+  async delete(id: number): Promise<void> {
+    await SQLiteManager.getInstance()
+      .getDataSource()
+      .createQueryBuilder()
+      .delete()
+      .from(SQLiteExpense)
+      .where("id = :id", { id })
+      .execute();
+  }
 }

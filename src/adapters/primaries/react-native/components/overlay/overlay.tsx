@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Overlay, Icon, Divider, Input } from "@rneui/themed";
+import { Button, Overlay, Icon, Input } from "@rneui/themed";
 import { ToastAndroid, View } from "react-native";
 import styles from "./styles";
 import CreateOrUpdateExpenseCommand from "../../../../../core/useCases/expense/types/createOrUpdateExpenseCommand";

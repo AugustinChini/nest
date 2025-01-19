@@ -10,4 +10,5 @@ export interface IExpenseWriteRepository {
     date: Date;
   }) => Promise<number>;
   update: (expense: ExpenseDto) => Promise<void>;
+  delete: (id: number) => Promise<void>;
 }
